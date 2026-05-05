@@ -1,0 +1,18 @@
+import com.azure.storage.blob.*;
+import java.io.FileInputStream;
+
+public class AzureUpload {
+    public static void main(String[] args) throws Exception {
+        String connStr = "your_connection_string";
+
+        BlobServiceClient serviceClient =
+                new BlobServiceClientBuilder().connectionString(connStr).buildClient();
+
+        BlobContainerClient container = serviceClient.getBlobContainerClient("mycontainer");
+
+        container.getBlobClient("file.txt")
+                .upload(new FileInputStream("file.txt"), new java.io.File("file.txt").length(), true);
+
+        System.out.println("Uploaded to Azure Blob");
+    }
+}
